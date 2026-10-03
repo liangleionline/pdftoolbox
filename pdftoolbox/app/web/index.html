@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF 转换工具箱</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">PDF</div>
+        <div class="brand-text">
+          <div class="brand-name">PDF 转换工具箱</div>
+          <div class="brand-sub">在线文档转换</div>
+        </div>
+      </div>
+      <nav class="menu">
+        <div class="menu-group">
+          <div class="menu-title">图片</div>
+          <a href="#" class="menu-item" data-panel="img-to-pdf">图片转 PDF</a>
+          <a href="#" class="menu-item" data-panel="pdf-to-img">PDF 转图片</a>
+        </div>
+        <div class="menu-group">
+          <div class="menu-title">文档</div>
+          <a href="#" class="menu-item" data-panel="word-to-pdf">Word 转 PDF</a>
+          <a href="#" class="menu-item" data-panel="excel-to-pdf">Excel 转 PDF</a>
+          <a href="#" class="menu-item" data-panel="ppt-to-pdf">PPT 转 PDF</a>
+          <a href="#" class="menu-item" data-panel="txt-to-pdf">TXT 转 PDF</a>
+          <a href="#" class="menu-item" data-panel="pdf-merge">PDF 整合</a>
+        </div>
+        <div class="menu-group">
+          <div class="menu-title">电子书</div>
+          <a href="#" class="menu-item" data-panel="ebook-to-pdf">电子书转 PDF</a>
+        </div>
+        <div class="menu-group">
+          <div class="menu-title">压缩包</div>
+          <a href="#" class="menu-item" data-panel="archive-to-pdf">压缩包转 PDF</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="deps-badge" id="deps-badge" type="button">检测中…</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="菜单">☰</button>
+        <div class="topbar-text">
+          <div class="topbar-title" id="page-title">图片转 PDF</div>
+          <div class="topbar-desc" id="page-desc">将多张 JPG / PNG / WebP 图片合并为一个 PDF 文件</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- 图片转PDF -->
+        <section class="panel" id="panel-img-to-pdf">
+          <div class="dropzone" id="dz-img-to-pdf">
+            <input type="file" id="input-img-to-pdf" accept=".jpg,.jpeg,.png,.webp" multiple hidden />
+            <div class="dz-icon">🖼️</div>
+            <div class="dz-title">拖拽图片到此处，或点击选择</div>
+            <div class="dz-hint">支持 JPG / PNG / WebP，可多选，按列表顺序合并（可拖拽排序）</div>
+            <div class="list-toolbar" id="toolbar-img-to-pdf">
+              <button class="btn ghost" id="btn-sort-name" type="button">按文件名排序</button>
+              <button class="btn ghost" id="btn-clear-list" type="button">清空队列</button>
+              <span class="hint-text" id="hint-img-to-pdf"></span>
+            </div>
+            <div class="file-list sortable" id="list-img-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-img-to-pdf">开始转换</button>
+            <span class="status" id="status-img-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- PDF转图片 -->
+        <section class="panel" id="panel-pdf-to-img" hidden>
+          <div class="dropzone" id="dz-pdf-to-img">
+            <input type="file" id="input-pdf-to-img" accept=".pdf" hidden />
+            <div class="dz-icon">📄</div>
+            <div class="dz-title">拖拽 PDF 到此处，或点击选择</div>
+            <div class="dz-hint">将 PDF 每一页导出为图片，打包为 ZIP 下载</div>
+            <div class="file-list" id="list-pdf-to-img"></div>
+          </div>
+          <div class="options">
+            <label>格式
+              <select id="opt-img-fmt">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+              </select>
+            </label>
+            <label>清晰度
+              <select id="opt-img-dpi">
+                <option value="100">100 DPI（较小）</option>
+                <option value="150" selected>150 DPI（推荐）</option>
+                <option value="300">300 DPI（高清）</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-pdf-to-img">开始转换</button>
+            <span class="status" id="status-pdf-to-img"></span>
+          </div>
+        </section>
+
+        <!-- Word -->
+        <section class="panel" id="panel-word-to-pdf" hidden>
+          <div class="dropzone" id="dz-word-to-pdf">
+            <input type="file" id="input-word-to-pdf" accept=".doc,.docx,.odt" hidden />
+            <div class="dz-icon">📝</div>
+            <div class="dz-title">拖拽 Word 文档到此处，或点击选择</div>
+            <div class="dz-hint">支持 .doc / .docx / .odt，依赖系统 LibreOffice</div>
+            <div class="file-list" id="list-word-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-word-to-pdf">开始转换</button>
+            <span class="status" id="status-word-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- Excel -->
+        <section class="panel" id="panel-excel-to-pdf" hidden>
+          <div class="dropzone" id="dz-excel-to-pdf">
+            <input type="file" id="input-excel-to-pdf" accept=".xls,.xlsx,.ods" hidden />
+            <div class="dz-icon">📊</div>
+            <div class="dz-title">拖拽 Excel 到此处，或点击选择</div>
+            <div class="dz-hint">支持 .xls / .xlsx / .ods，依赖系统 LibreOffice</div>
+            <div class="file-list" id="list-excel-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-excel-to-pdf">开始转换</button>
+            <span class="status" id="status-excel-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- PPT -->
+        <section class="panel" id="panel-ppt-to-pdf" hidden>
+          <div class="dropzone" id="dz-ppt-to-pdf">
+            <input type="file" id="input-ppt-to-pdf" accept=".ppt,.pptx,.odp" hidden />
+            <div class="dz-icon">📽️</div>
+            <div class="dz-title">拖拽 PPT 到此处，或点击选择</div>
+            <div class="dz-hint">支持 .ppt / .pptx / .odp，依赖系统 LibreOffice</div>
+            <div class="file-list" id="list-ppt-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-ppt-to-pdf">开始转换</button>
+            <span class="status" id="status-ppt-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- TXT -->
+        <section class="panel" id="panel-txt-to-pdf" hidden>
+          <div class="dropzone" id="dz-txt-to-pdf">
+            <input type="file" id="input-txt-to-pdf" accept=".txt,.text" hidden />
+            <div class="dz-icon">📄</div>
+            <div class="dz-title">拖拽 TXT 到此处，或点击选择</div>
+            <div class="dz-hint">支持 .txt 纯文本，内置转换无需额外软件（支持中文）</div>
+            <div class="file-list" id="list-txt-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-txt-to-pdf">开始转换</button>
+            <span class="status" id="status-txt-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- PDF 整合 -->
+        <section class="panel" id="panel-pdf-merge" hidden>
+          <div class="dropzone" id="dz-pdf-merge">
+            <input type="file" id="input-pdf-merge" accept=".pdf" multiple hidden />
+            <div class="dz-icon">🧩</div>
+            <div class="dz-title">拖拽多个 PDF 到此处，或点击选择</div>
+            <div class="dz-hint">支持多选，按列表顺序整合为一个 PDF（可拖拽排序）</div>
+            <div class="list-toolbar" id="toolbar-pdf-merge">
+              <button class="btn ghost" id="btn-merge-sort-name" type="button">按文件名排序</button>
+              <button class="btn ghost" id="btn-merge-clear" type="button">清空队列</button>
+              <span class="hint-text" id="hint-pdf-merge"></span>
+            </div>
+            <div class="file-list sortable" id="list-pdf-merge"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-pdf-merge">整合 PDF</button>
+            <span class="status" id="status-pdf-merge"></span>
+          </div>
+        </section>
+
+        <!-- 电子书 -->
+        <section class="panel" id="panel-ebook-to-pdf" hidden>
+          <div class="dropzone" id="dz-ebook-to-pdf">
+            <input type="file" id="input-ebook-to-pdf" accept=".epub,.mobi,.azw3,.azw,.txt,.fb2" hidden />
+            <div class="dz-icon">📚</div>
+            <div class="dz-title">拖拽电子书到此处，或点击选择</div>
+            <div class="dz-hint">支持 EPUB / MOBI / AZW3 / TXT / FB2；EPUB/MOBI 依赖 Calibre，TXT 依赖 LibreOffice</div>
+            <div class="file-list" id="list-ebook-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-ebook-to-pdf">开始转换</button>
+            <span class="status" id="status-ebook-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- 压缩包转PDF -->
+        <section class="panel" id="panel-archive-to-pdf" hidden>
+          <div class="dropzone" id="dz-archive-to-pdf">
+            <input type="file" id="input-archive-to-pdf" accept=".zip,.rar,.7z" hidden />
+            <div class="dz-icon">🗜️</div>
+            <div class="dz-title">拖拽压缩包到此处，或点击选择</div>
+            <div class="dz-hint">支持 ZIP / RAR / 7Z；ZIP 内置解压，RAR/7Z 需要系统 p7zip</div>
+            <div class="file-list" id="list-archive-to-pdf"></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btn-archive-to-pdf">开始转换</button>
+            <span class="status" id="status-archive-to-pdf"></span>
+          </div>
+        </section>
+
+        <!-- 外部依赖 -->
+        <section class="panel" id="panel-deps" hidden>
+          <div class="deps-list" id="deps-list"></div>
+          <div class="actions">
+            <button class="btn ghost" id="btn-refresh-deps" type="button">重新检测</button>
+            <span class="hint-text" id="deps-tip">SSH 执行对应命令安装后，点击"重新检测"刷新状态。</span>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- 弹窗（压缩包多文件选择） -->
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-title" id="modal-title">选择处理方式</div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-actions">
+        <button class="btn ghost" id="modal-cancel" type="button">取消</button>
+        <button class="btn primary" id="modal-confirm" type="button">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

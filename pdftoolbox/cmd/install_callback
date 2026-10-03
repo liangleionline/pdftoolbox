@@ -1,0 +1,36 @@
+#!/bin/bash
+# 安装后回调：创建必要目录，探测可用的外部转换工具
+mkdir -p "${TRIM_PKGVAR}" "${TRIM_PKGTMP}" "${TRIM_PKGHOME}" "${TRIM_PKGMETA}"
+
+PROBE_FILE="${TRIM_PKGETC}/tools.json"
+mkdir -p "${TRIM_PKGETC}"
+
+detect() {
+  if command -v "$1" >/dev/null 2>&1; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+SOFFICE=$(detect soffice)
+[ "$SOFFICE" = "false" ] && SOFFICE=$(detect libreoffice)
+EBOOK=$(detect ebook-convert)
+PDFTOPPM=$(detect pdftoppm)
+MUTOOL=$(detect mutool)
+SEVENZ=$(detect 7z)
+[ "$SEVENZ" = "false" ] && SEVENZ=$(detect 7za)
+UNRAR=$(detect unrar)
+
+cat > "$PROBE_FILE" <<EOF
+{
+  "libreoffice": ${SOFFICE},
+  "ebook_convert": ${EBOOK},
+  "pdftoppm": ${PDFTOPPM},
+  "mutool": ${MUTOOL},
+  "7z": ${SEVENZ},
+  "unrar": ${UNRAR}
+}
+EOF
+
+exit 0

@@ -1,0 +1,16 @@
+appname=pdftoolbox
+version=1.1.11
+display_name=PDF转换工具箱
+desc=在线 PDF 转换工具：图片/压缩包转PDF、PDF转图片、PDF整合、Word/Excel/PPT/TXT/电子书转PDF。转换结果保存在应用数据目录的 downloads 文件夹中
+platform=x86
+source=thirdparty
+maintainer=pdftoolbox
+distributor=pdftoolbox
+service_port=5860
+checkport=true
+os_min_version=0.9.0
+desktop_uidir=ui
+desktop_applaunchname=pdftoolbox.main
+ctl_stop=true
+install_type=
+changelog=移除「设置」面板及输出目录配置功能（含前后端相关代码）；转换结果固定保存到应用数据目录 downloads 文件夹。修复桌面图标：确保 ui/images 下 64/256 图标完整打包

@@ -1,0 +1,11 @@
+[
+  {
+    "stepTitle": "欢迎使用 PDF 转换工具箱",
+    "items": [
+      {
+        "type": "tips",
+        "helpText": "<b>PDF 转换工具箱</b>提供图片、Office 文档、电子书、压缩包到 PDF 的转换与 PDF 整合能力。<br/>应用启动后在本机 <b>5860</b> 端口提供 Web 界面。<br/><br/><b>内置无需依赖：</b>图片转PDF、PDF转图片（内置引擎）、TXT转PDF、PDF整合。<br/><b>需要系统软件：</b>Word/Excel/PPT 转PDF需 LibreOffice；EPUB/MOBI 转PDF需 Calibre；rar/7z 压缩包解压需 p7zip。未安装时会在界面提示并给出安装命令。"
+      }
+    ]
+  }
+]

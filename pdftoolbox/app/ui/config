@@ -1,0 +1,13 @@
+{
+  ".url": {
+    "pdftoolbox.main": {
+      "title": "PDF转换工具箱",
+      "icon": "images/icon-{0}.png",
+      "type": "iframe",
+      "protocol": "http",
+      "port": "5860",
+      "url": "/",
+      "allUsers": true
+    }
+  }
+}

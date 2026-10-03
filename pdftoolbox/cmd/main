@@ -1,0 +1,76 @@
+#!/bin/bash
+# PDF 转换工具箱 启停与状态脚本
+PID_FILE="${TRIM_PKGVAR}/app.pid"
+LOG_FILE="${TRIM_PKGVAR}/app.log"
+APP_DEST="${TRIM_APPDEST}"
+PORT="${TRIM_SERVICE_PORT:-5860}"
+
+mkdir -p "${TRIM_PKGVAR}" "${TRIM_PKGTMP}" "${TRIM_PKGHOME}"
+
+case "$1" in
+  start)
+    if [ -f "$PID_FILE" ]; then
+      pid=$(cat "$PID_FILE" | tr -d '[:space:]')
+      if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+        exit 0
+      fi
+    fi
+
+    PY=""
+    for cand in python3 python3.11 python3.12 python3.10; do
+      if command -v "$cand" >/dev/null 2>&1; then
+        PY="$cand"
+        break
+      fi
+    done
+    if [ -z "$PY" ]; then
+      echo "未找到 python3，请先在应用中心安装 Python 3 运行环境。" > "${TRIM_TEMP_LOGFILE}"
+      exit 1
+    fi
+
+    cd "${APP_DEST}" || exit 1
+    nohup "$PY" "${APP_DEST}/server.py" \
+        --host 0.0.0.0 \
+        --port "${PORT}" \
+        --data-dir "${TRIM_PKGVAR}" \
+        --tmp-dir "${TRIM_PKGTMP}" \
+        --home-dir "${TRIM_PKGHOME}" \
+        >> "${LOG_FILE}" 2>&1 &
+    echo $! > "$PID_FILE"
+    sleep 1
+    pid=$(cat "$PID_FILE" | tr -d '[:space:]')
+    if [ -z "$pid" ] || ! kill -0 "$pid" 2>/dev/null; then
+      echo "应用启动失败，请查看日志 ${LOG_FILE}" > "${TRIM_TEMP_LOGFILE}"
+      exit 1
+    fi
+    exit 0
+    ;;
+  stop)
+    if [ -f "$PID_FILE" ]; then
+      pid=$(cat "$PID_FILE" | tr -d '[:space:]')
+      if [ -n "$pid" ]; then
+        kill "$pid" 2>/dev/null
+        for i in 1 2 3 4 5; do
+          kill -0 "$pid" 2>/dev/null || break
+          sleep 1
+        done
+        kill -9 "$pid" 2>/dev/null
+      fi
+      rm -f "$PID_FILE"
+    fi
+    exit 0
+    ;;
+  status)
+    if [ -f "$PID_FILE" ]; then
+      pid=$(cat "$PID_FILE" | tr -d '[:space:]')
+      if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+        exit 0
+      fi
+      rm -f "$PID_FILE"
+    fi
+    exit 3
+    ;;
+  *)
+    exit 1
+    ;;
+esac
