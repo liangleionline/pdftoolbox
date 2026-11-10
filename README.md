@@ -1,5 +1,12 @@
 # PDF 转换工具箱 (PDF Toolbox)
 
+[![License](https://img.shields.io/github/license/liangleionline/pdftoolbox?color=blue&logo=gnu)](https://github.com/liangleionline/pdftoolbox/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/liangleionline/pdftoolbox?color=2ea44f)](https://github.com/liangleionline/pdftoolbox/releases)
+[![Downloads](https://img.shields.io/github/downloads/liangleionline/pdftoolbox/total?color=brightgreen&logo=github)](https://github.com/liangleionline/pdftoolbox/releases)
+[![Stars](https://img.shields.io/github/stars/liangleionline/pdftoolbox?color=yellow&logo=github)](https://github.com/liangleionline/pdftoolbox/stargazers)
+[![Platform](https://img.shields.io/badge/platform-fnOS%20%7C%20Linux-lightgrey)](https://www.fnnas.com/)
+[![Free](https://img.shields.io/badge/price-100%25%20Free-brightgreen)](https://github.com/liangleionline/pdftoolbox)
+
 一款运行在 **飞牛 fnOS NAS** 上的在线 PDF 转换工具。
 
 **本软件完全免费，没有任何收费内容，无广告、无内购、无会员。**
